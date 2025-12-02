@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Stempel</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .scan-wrap{max-width:720px;margin:40px auto;padding:16px}
+    .scan-card{padding:18px;border-radius:18px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    .ok{margin-top:10px;font-size:16px;line-height:1.5}
+  </style>
+</head>
+<body>
+  <div class="scan-wrap">
+    <h1 style="font-size:32px;margin:0 0 14px">Stempel</h1>
+    <div class="card scan-card">
+      <div id="status" class="ok"></div>
+      <div style="margin-top:12px;display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn" href="index.html">Åbn kalender</a>
+      </div>
+      <small style="display:block;margin-top:12px;opacity:.8">
+        Virker på samme enhed/browser som kalenderen (localStorage).
+      </small>
+    </div>
+  </div>
+
+  <script>
+    function uid(){ return Math.random().toString(36).slice(2,9) }
+    const pad = n => String(n).padStart(2,'0')
+    const todayStr = (d=new Date()) => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`
+    const timeStr  = (d=new Date()) => `${pad(d.getHours())}:${pad(d.getMinutes())}`
+
+    const getPersons = () => JSON.parse(localStorage.getItem('persons') || '[]')
+    const getEvents  = () => JSON.parse(localStorage.getItem('events')  || '{}')
+    const saveEvents = (events) => localStorage.setItem('events', JSON.stringify(events))
+
+    const statusEl = document.getElementById('status')
+    const params = new URLSearchParams(location.search)
+
+    // Vælg person:
+    // - hvis du vil låse QR til en bestemt person: tilføj ?personId=XYZ i QR-linket
+    // - ellers bruges første person i localStorage
+    const personId = params.get('personId') || (getPersons()[0] && getPersons()[0].id)
+
+    if(!personId){
+      statusEl.innerHTML = `❌ Ingen person fundet. Åbn først kalenderen og opret en person.`
+      throw new Error("No personId")
+    }
+
+    const date = todayStr()
+    const now  = timeStr()
+
+    const events = getEvents()
+    if(!events[personId]) events[personId] = []
+
+    // én event pr dag pr person
+    let ev = events[personId].find(e => e.date === date)
+
+    if(!ev){
+      // STEMPEL IND
+      ev = { id: uid(), date, start: now, end: "", note: "Arbejde" }
+      events[personId] = events[personId].filter(e => e.date !== date).concat([ev])
+      saveEvents(events)
+      statusEl.innerHTML = `✅ Stemplet <strong>IND</strong> kl. <span class="mono">${now}</span> (${date}).`
+    } else if(!ev.end){
+      // STEMPEL UD
+      ev.end = now
+      saveEvents(events)
+      statusEl.innerHTML = `✅ Stemplet <strong>UD</strong> kl. <span class="mono">${now}</span> (${date}).`
+    } else {
+      // allerede udfyldt
+      statusEl.innerHTML = `ℹ️ Dagens tider er allerede sat: <span class="mono">${ev.start} – ${ev.end}</span> (${date}).`
+    }
+  </script>
+</body>
+</html>
