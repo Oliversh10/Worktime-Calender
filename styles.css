@@ -97,7 +97,7 @@ body{margin:0;background:var(--bg);color:#111827}
 @media (max-width: 720px){
   .container{margin:0 auto;padding:12px}
   h1{font-size:20px;margin:8px 0}
-  .calendar-card{padding:10px;border-radius:14px}
+  .calendar-card{padding:20px;border-radius:24px}
   .calendar-grid{gap:4px}
   .day{min-height:64px;padding:6px;border-radius:14px}
   .btn{padding:10px 12px}
