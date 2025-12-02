@@ -4,19 +4,26 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Arbejdskalender (HTML)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="container">
-    <h1>Arbejdskalender</h1>
+    <h1 class="title">Arbejdskalender</h1>
+
+    <div style="margin:10px 0 6px 0; display:flex; gap:10px; flex-wrap:wrap;">
+      <button id="themeToggle" class="btn secondary" type="button">Night mode</button>
+    </div>
     <small>Vælg person i toppen. Ingen login — vælg person og rediger tider. Data gemmes lokalt i din browser.</small>
 
     <div id="person-tabs" class="topbar"></div>
-    <div style="margin-top:12px; display:flex; gap:12px; align-items:start;">
-      <div style="flex:1">
+    <div class="layout">
+      <div class="main">
         <div class="controls">
           <div><strong id="active-name">Ingen person valgt</strong></div>
-          <div style="flex:1"></div>
+          <div class="main"></div>
           <div class="export-row">
             <button class="btn" id="export-csv">Eksporter CSV</button>
             <button class="btn" id="print">Print / PDF</button>
@@ -34,7 +41,7 @@
         </div>
       </div>
 
-      <div style="width:300px;">
+      <div class="sidebar">
         <h3>Events</h3>
         <div id="event-list"></div>
       </div>
@@ -48,9 +55,9 @@
       <label>Dato</label>
       <input id="m-date" class="input" readonly />
       <label>Start (fx 08:00)</label>
-      <input id="m-start" class="input" placeholder="08:00" />
+      <input id="m-start" class="input" placeholder="08:00 (du kan skrive 8)" / data-time="true" inputmode="numeric">
       <label>Slut (fx 16:00)</label>
-      <input id="m-end" class="input" placeholder="16:00" />
+      <input id="m-end" class="input" placeholder="16:00 (du kan skrive 16)" / data-time="true" inputmode="numeric">
       <label>Beskrivelse</label>
       <input id="m-note" class="input" placeholder="Hvorfor du er der" />
       <div style="display:flex; gap:8px; margin-top:8px;">
@@ -76,6 +83,6 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js" defer></script>
 </body>
 </html>

@@ -1,3 +1,24 @@
+function normalizeTimeInput(raw) {
+  if (raw == null) return "";
+  let s = String(raw).trim();
+  if (!s) return "";
+  // Accept "8" => 08:00, "8:5" => 08:05, "08" => 08:00, "08:00" stays
+  const m = s.match(/^(\d{1,2})(?::(\d{1,2}))?$/);
+  if (!m) return s; // leave as-is; other validation may handle it
+  let h = Math.max(0, Math.min(23, parseInt(m[1], 10)));
+  let min = m[2] == null ? 0 : Math.max(0, Math.min(59, parseInt(m[2], 10)));
+  const hh = String(h).padStart(2, "0");
+  const mm = String(min).padStart(2, "0");
+  return `${hh}:${mm}`;
+}
+function bindTimeAutoFormat(inputEl){
+  if (!inputEl) return;
+  inputEl.addEventListener("blur", () => {
+    const v = normalizeTimeInput(inputEl.value);
+    if (v) inputEl.value = v;
+  });
+}
+
 // Enkel kalender-app med localStorage som 'database'.
 // Data structure:
 // localStorage.persons = JSON.stringify([ {id,name,color} ])
@@ -11,6 +32,7 @@
 
   // initial state
   const today = new Date()
+  const todayDateStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`
   let viewYear = today.getFullYear()
   let viewMonth = today.getMonth() // 0-based
   let persons = JSON.parse(localStorage.getItem('persons') || '[]')
@@ -85,6 +107,8 @@
         continue
       }
       const dateStr = `${viewYear}-${String(viewMonth+1).padStart(2,'0')}-${String(dayIndex).padStart(2,'0')}`
+      // highlight dagens dato
+      if (dateStr === todayDateStr) cell.classList.add('today')
       cell.dataset.date = dateStr
       cell.innerHTML = `<div class="date">${dayIndex}</div>`
       const evs = (events[activePersonId] || []).filter(e=>e.date===dateStr)
@@ -147,7 +171,7 @@
 
   mSave.onclick = ()=>{
     if (!activePersonId) return alert('Vælg en person først')
-    const date = mDate.value, start=mStart.value.trim(), end=mEnd.value.trim(), note=mNote.value.trim()
+    const date = mDate.value, start=normalizeTimeInput(mStart.value), end=normalizeTimeInput(mEnd.value), note=mNote.value.trim()
     if (!events[activePersonId]) events[activePersonId]=[]
     if (modalEditingEvent) {
       // update
@@ -215,3 +239,43 @@
   renderAll()
 
 })()
+
+document.querySelectorAll('[data-time="true"]').forEach(bindTimeAutoFormat);
+
+
+bindTimeAutoFormat(mStart)
+bindTimeAutoFormat(mEnd)
+
+
+
+
+// Night mode toggle (robust)
+(function(){
+  function initThemeToggle(){
+    const btn = document.getElementById('themeToggle');
+    if(!btn) return;
+
+    const applyLabel = ()=>{
+      const isDark = document.body.classList.contains('dark');
+      btn.textContent = isDark ? 'Light mode' : 'Night mode';
+      btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    };
+
+    // load saved state
+    const saved = localStorage.getItem('theme') || 'light';
+    if(saved === 'dark') document.body.classList.add('dark');
+    applyLabel();
+
+    btn.addEventListener('click', ()=>{
+      document.body.classList.toggle('dark');
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+      applyLabel();
+    });
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initThemeToggle);
+  }else{
+    initThemeToggle();
+  }
+})();
