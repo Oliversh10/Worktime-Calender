@@ -355,36 +355,47 @@ input:focus,textarea:focus,select:focus{
   color: var(--text) !important;
 }
 
-/* Mobil: større "kasser" og større tid-tekst */
+/* === Mobil: gør layoutet mere “stort og læsbart” === */
 @media (max-width: 520px) {
 
-  /* generelt lidt større touch targets */
-  .btn, button, input, select {
-    min-height: 46px;
-    font-size: 16px;
+  /* Mere luft i hele siden */
+  body {
+    padding: 14px !important;
   }
 
-  /* hvis du har kort/kasser der viser events */
+  /* Gør grid til 1 kolonne, så “kasserne” bliver brede */
+  .grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  /* Gør alle cards/kasser større */
   .card {
     padding: 18px !important;
-    border-radius: 18px !important;
+    border-radius: 20px !important;
   }
 
-  /* prøv at ramme selve event-rækkerne/kasserne */
-  .event, .event-row, .eventItem, .event-item, .entry, .row {
-    padding: 16px !important;
-    border-radius: 18px !important;
+  /* Knapper større */
+  .btn, button {
+    min-height: 50px !important;
+    padding: 14px 16px !important;
+    font-size: 17px !important;
+    border-radius: 16px !important;
   }
 
-  /* gør tider mere læsbare (typiske klasser) */
-  .time, .hours, .event-time, .start, .end {
-    font-size: 20px !important;
-    font-weight: 700 !important;
+  /* Inputs større */
+  input, select, textarea {
+    min-height: 46px !important;
+    font-size: 16px !important;
+    padding: 12px 14px !important;
+    border-radius: 14px !important;
   }
 
-  /* labels/tekst under tider */
-  .label, small {
-    font-size: 14px !important;
+  /* Overskrifter lidt større */
+  .title {
+    font-size: 34px !important;
+    line-height: 1.1 !important;
   }
 }
+
 
