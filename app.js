@@ -20,9 +20,7 @@
   // seed default persons if empty
   if (persons.length === 0) {
     persons = [
-      {id:'jonas', name:'Jonas', color:'#3B82F6'},
-      {id:'malthe', name:'Malthe', color:'#10B981'},
-      {id:'emil', name:'Emil', color:'#F59E0B'}
+      {id:'Name', name:'Name', color:'#3B82F6'},
     ]
     localStorage.setItem('persons', JSON.stringify(persons))
     localStorage.setItem('events', JSON.stringify(events))
