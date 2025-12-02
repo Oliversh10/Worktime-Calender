@@ -354,3 +354,37 @@ input:focus,textarea:focus,select:focus{
   background-color: rgba(11,19,38,.75) !important;
   color: var(--text) !important;
 }
+
+/* Mobil: større "kasser" og større tid-tekst */
+@media (max-width: 520px) {
+
+  /* generelt lidt større touch targets */
+  .btn, button, input, select {
+    min-height: 46px;
+    font-size: 16px;
+  }
+
+  /* hvis du har kort/kasser der viser events */
+  .card {
+    padding: 18px !important;
+    border-radius: 18px !important;
+  }
+
+  /* prøv at ramme selve event-rækkerne/kasserne */
+  .event, .event-row, .eventItem, .event-item, .entry, .row {
+    padding: 16px !important;
+    border-radius: 18px !important;
+  }
+
+  /* gør tider mere læsbare (typiske klasser) */
+  .time, .hours, .event-time, .start, .end {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+  }
+
+  /* labels/tekst under tider */
+  .label, small {
+    font-size: 14px !important;
+  }
+}
+
