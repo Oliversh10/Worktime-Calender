@@ -1,0 +1,356 @@
+:root{
+  --bg:#0b1220;
+  --card:#0f172a;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --border:#27324a;
+  --shadow:0 18px 40px rgba(0,0,0,.45);
+  --radius:18px;
+  --radiusSm:14px;
+  --accent:#60a5fa;
+  --accent2:#22c55e;
+}
+
+*{box-sizing:border-box;font-family:Inter, system-ui, Arial, sans-serif}
+.title{font-family:'Space Grotesk', Inter, system-ui, sans-serif; font-weight:700; letter-spacing:-0.02em; font-size:44px; line-height:1.05; margin:0 0 10px 0; text-shadow:0 10px 30px rgba(0,0,0,.35)}
+@media (max-width:720px){.title{font-size:32px}}
+
+body{margin:0;background:var(--bg);color:#111827}
+.container{max-width:1700px;margin:24px auto;padding:16px}
+
+.topbar{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.tab{padding:8px 12px;border-radius:8px;cursor:pointer;background:#0b1220;display:flex;align-items:center;gap:8px}
+.tab.active{box-shadow:0 2px 6px rgba(0,0,0,0.12);transform:translateY(-1px)}
+
+.controls{display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap}
+.btn{padding:8px 10px;border-radius:8px;background:var(--accent);color:#0b1220;cursor:pointer;border:none}
+.btn:active{transform:translateY(1px)}
+.small{padding:6px 8px;font-size:13px}
+
+.calendar-card{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 6px 24px rgba(15,23,42,0.06)}
+.calendar-header{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:8px}
+#month-label{font-weight:600}
+
+.calendar-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+
+.day{
+  min-height:88px;
+  border-radius:12px;
+  padding:8px;
+  background:#0b1220;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  cursor:pointer;
+  overflow:hidden;
+}
+.day.other{opacity:0.5}
+.day:hover{filter:brightness(0.98)}
+.day .date{font-size:12px;color:var(--muted);margin-bottom:6px}
+
+.day.today{
+  outline:2px solid var(--accent);
+  box-shadow:0 0 0 3px rgba(17,24,39,0.14);
+  background:#0b1220;
+}
+
+.event-pill{
+  padding:4px 6px;
+  border-radius:8px;
+  color:#0b1220;
+  font-size:12px;
+  margin-bottom:4px;
+  display:inline-block;
+  max-width:100%;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.event-list-item{
+  padding:6px 8px;
+  border-radius:10px;
+  margin-bottom:8px;
+  background:#0b1220;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.input{width:100%;padding:10px;margin-bottom:8px;border:1px solid #0b1220;border-radius:10px}
+
+.modal{
+  position:fixed;
+  left:0;top:0;right:0;bottom:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(15,23,42,0.5);
+  padding:14px;
+}
+.modal-card{background:#0b1220;padding:16px;border-radius:14px;width:360px;max-width:100%}
+.hidden{display:none}
+.person-color{width:12px;height:12px;border-radius:3px;display:inline-block;margin-right:6px;vertical-align:middle}
+
+/* Mobile optimization */
+@media (max-width: 720px){
+  .container{margin:0 auto;padding:12px}
+  h1{font-size:20px;margin:8px 0}
+  .calendar-card{padding:10px;border-radius:14px}
+  .calendar-grid{gap:4px}
+  .day{min-height:64px;padding:6px;border-radius:14px}
+  .btn{padding:10px 12px}
+  .tab{padding:8px 10px}
+  .modal-card{width:min(92vw,420px)}
+}
+
+@media (max-width: 420px){
+  .calendar-grid{gap:3px}
+  .day{min-height:58px;padding:5px}
+  .day .date{font-size:11px}
+  .event-pill{font-size:11px;padding:3px 5px;border-radius:10px}
+}
+
+.layout{margin-top:12px;display:flex;gap:12px;align-items:flex-start}
+.main{flex:1;min-width:0}
+.sidebar{width:340px;flex:0 0 340px}
+@media (max-width: 720px){
+  .layout{flex-direction:column}
+  .sidebar{width:100%;flex:1}
+}
+
+
+/* Make sidebar list a bit denser */
+#eventsList .eventItem, .eventItem{padding:10px 12px}
+
+
+/* Night mode */
+body.dark{
+  --bg:#0b1220;
+  --card:#0f172a;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+  --border:#27324a;
+  --shadow:0 14px 30px rgba(0,0,0,.45);
+}
+body.dark .day, body.dark .dayCell{background:#0b1326;border-color:var(--border)}
+body.dark .personItem, body.dark .person, body.dark .eventItem{background:#0b1326;border-color:var(--border)}
+body.dark input, body.dark select, body.dark textarea{background:#0b1326;color:var(--text);border-color:var(--border)}
+body.dark button.secondary{background:#1f2937;color:var(--text)}
+body.dark button.ghost{border-color:var(--border)}
+body.dark .today{outline-color:rgba(96,165,250,.55);box-shadow:0 0 0 6px rgba(96,165,250,.12)}
+
+
+/* Night mode (strong overrides) */
+body.dark{
+  background:#0b1220 !important;
+  color:#0b1220 !important;
+}
+body.dark .container{background:transparent !important;}
+body.dark .panel, body.dark .sidebar, body.dark #sidebar, body.dark #calendar, body.dark .card{
+  background:#0f172a !important;
+  color:#0b1220 !important;
+  box-shadow:0 14px 30px rgba(0,0,0,.45) !important;
+}
+body.dark .day, body.dark .dayCell{
+  background:#0b1326 !important;
+  border-color:#27324a !important;
+}
+body.dark .weekdays div{color:#9ca3af !important;}
+body.dark input, body.dark select, body.dark textarea{
+  background:#0b1326 !important;
+  color:#0b1220 !important;
+  border-color:#27324a !important;
+}
+body.dark button.secondary{
+  background:#1f2937 !important;
+  color:#0b1220 !important;
+}
+body.dark button.ghost{
+  border-color:#27324a !important;
+  color:#0b1220 !important;
+}
+body.dark small{color:#9ca3af !important;}
+
+
+/* Polished dark look */
+body{
+  margin:0;
+  background: radial-gradient(1100px 700px at 20% 0%, rgba(96,165,250,.14), transparent 60%),
+              radial-gradient(900px 600px at 90% 10%, rgba(34,197,94,.10), transparent 55%),
+              var(--bg);
+  color:var(--text);
+}
+
+.container{max-width:1700px;margin:0 auto;padding:14px}
+.header h1{color:var(--text)}
+.badge, small{color:var(--muted)}
+
+.card, .panel, .sidebar, #sidebar, #calendar{
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+  border: 1px solid rgba(39,50,74,.7);
+  border-radius:var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.weekdays div{color:var(--muted)}
+
+.grid{gap:10px}
+.day, .dayCell{
+  background: rgba(11,19,38,.85);
+  border: 1px solid rgba(39,50,74,.8);
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+  min-height: 140px;
+}
+.day:hover, .dayCell:hover{border-color: rgba(96,165,250,.55)}
+
+/* Make muted (outside month) clearly different but still dark */
+.day.muted, .dayCell.muted{
+  opacity:.45;
+  background: rgba(11,19,38,.55);
+}
+
+.day .num, .dayNum{color:rgba(229,231,235,.9)}
+.day .who, .dayInfo{color:rgba(156,163,175,.95)}
+.day .time, .dayTime{color:rgba(229,231,235,.92)}
+
+/* Event pill inside day */
+.day .event, .eventPill{
+  background: rgba(96,165,250,.18);
+  border: 1px solid rgba(96,165,250,.35);
+  color: rgba(229,231,235,.98);
+  border-radius: 12px;
+}
+
+/* Sidebar list */
+.eventItem{
+  background: rgba(11,19,38,.65);
+  border: 1px solid rgba(39,50,74,.7);
+}
+.eventItem:hover{border-color:rgba(96,165,250,.55)}
+
+/* Inputs */
+input,select,textarea{
+  background: rgba(11,19,38,.75);
+  border: 1px solid rgba(39,50,74,.8);
+  color: var(--text);
+}
+input:focus,textarea:focus,select:focus{
+  outline: 2px solid rgba(96,165,250,.25);
+  border-color: rgba(96,165,250,.35);
+}
+
+/* Buttons */
+.btn, button{
+  background: rgba(17,24,39,.85);
+  border: 1px solid rgba(39,50,74,.9);
+  color: var(--text);
+  box-shadow: 0 6px 18px rgba(0,0,0,.28);
+}
+.btn:hover, button:hover{border-color: rgba(96,165,250,.55)}
+.btn.secondary, button.secondary{
+  background: rgba(11,19,38,.70);
+}
+.btn:active, button:active{transform: translateY(1px)}
+
+/* Today highlight */
+.today, .day.today, .dayCell.today{
+  outline: 3px solid rgba(96,165,250,.65);
+  box-shadow: 0 0 0 6px rgba(96,165,250,.14), inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+/* Reduce that "white slab" feel */
+#calendar, .calendar{
+  background: transparent;
+}
+
+/* Mobile */
+@media (max-width:520px){
+  .container{padding:12px}
+  .day,.dayCell{min-height:110px}
+}
+
+
+/* Remove remaining light surfaces */
+.modal, #modal, .modalBackdrop .modal{
+  background: rgba(15,23,42,.96) !important;
+  color: var(--text) !important;
+  border: 1px solid rgba(39,50,74,.9) !important;
+}
+.modal h3, .modal label{color: var(--text) !important;}
+.modal .small{color: var(--muted) !important;}
+
+.eventItem{
+  background: rgba(11,19,38,.75) !important;
+  color: var(--text) !important;
+}
+.eventItem *{color: inherit !important;}
+
+/* If any buttons/inputs render light inside sidebar */
+#sidebar, .sidebar, .panel, .card{color: var(--text) !important;}
+
+
+/* Aggressive: force Events panel dark regardless of classnames */
+#events, #events *, #eventsList, #eventsList *{
+  background-color: transparent !important;
+  color: var(--text) !important;
+}
+#events{
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)) !important;
+  border: 1px solid rgba(39,50,74,.7) !important;
+  border-radius: var(--radius) !important;
+}
+#events button, #events .btn{
+  background: rgba(17,24,39,.85) !important;
+  border: 1px solid rgba(39,50,74,.9) !important;
+  color: var(--text) !important;
+}
+
+/* If the list items are simple <li> or <div> without class */
+#eventsList > *{
+  background: rgba(11,19,38,.75) !important;
+  border: 1px solid rgba(39,50,74,.7) !important;
+  border-radius: 14px !important;
+  padding: 12px !important;
+}
+
+
+/* Reliable Events dark styling (uses injected ids) */
+#eventsPanel{
+  background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)) !important;
+  border: 1px solid rgba(39,50,74,.7) !important;
+  color: var(--text) !important;
+}
+#eventsPanel h2, #eventsPanel h3, #eventsPanel p, #eventsPanel span, #eventsPanel div{
+  color: var(--text) !important;
+}
+#eventsList > *{
+  background: rgba(11,19,38,.75) !important;
+  border: 1px solid rgba(39,50,74,.7) !important;
+  border-radius: 14px !important;
+}
+#eventsPanel button{
+  background: rgba(17,24,39,.85) !important;
+  border: 1px solid rgba(39,50,74,.9) !important;
+  color: var(--text) !important;
+}
+
+
+/* Last resort: darken any light cards inside the right sidebar by targeting common patterns */
+#sidebar .card, #sidebar .card *, #sidebar *[style*="background: #fff"], #sidebar *[style*="background:#fff"]{
+  background-color: transparent !important;
+  color: var(--text) !important;
+}
+#sidebar .event, #sidebar .event *, #sidebar .item, #sidebar .item *{
+  background: rgba(11,19,38,.75) !important;
+  color: var(--text) !important;
+  border-color: rgba(39,50,74,.7) !important;
+}
+
+/* Also darken generic light backgrounds anywhere (safe-ish) */
+*[style*="background: white"], *[style*="background:white"], *[style*="background: #fff"], *[style*="background:#fff"]{
+  background-color: rgba(11,19,38,.75) !important;
+  color: var(--text) !important;
+}
