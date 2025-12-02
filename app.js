@@ -104,6 +104,7 @@ function bindTimeAutoFormat(inputEl){
       if (dayIndex < 1 || dayIndex > daysInMonth(viewYear, viewMonth)) {
         cell.className += ' other'
         grid.appendChild(cell)
+             
         continue
       }
       const dateStr = `${viewYear}-${String(viewMonth+1).padStart(2,'0')}-${String(dayIndex).padStart(2,'0')}`
@@ -121,6 +122,15 @@ function bindTimeAutoFormat(inputEl){
       })
       cell.onclick = ()=>openModal(dateStr)
       grid.appendChild(cell)
+
+      const d = new Date(viewYear, viewMonth, dayIndex);
+if (isMonday(d)) {
+  const wn = document.createElement('div');
+  wn.className = 'week-num';
+  wn.textContent = isoWeekNumber(d);
+  cell.appendChild(wn);
+}
+
     }
   }
 
@@ -279,3 +289,16 @@ bindTimeAutoFormat(mEnd)
     initThemeToggle();
   }
 })();
+
+
+function isoWeekNumber(date){
+  // ISO week: Monday first, week 1 has Jan 4th
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = d.getUTCDay() || 7; // 1-7 (Mon-Sun)
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+}
+function isMonday(date){
+  return date.getDay() === 1; // Mon
+}
