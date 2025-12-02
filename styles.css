@@ -97,7 +97,7 @@ body{margin:0;background:var(--bg);color:#111827}
 @media (max-width: 720px){
   .container{margin:0 auto;padding:12px}
   h1{font-size:20px;margin:8px 0}
-  .calendar-card{padding:20px;border-radius:24px}
+  .calendar-card{padding:10px;border-radius:12px}
   .calendar-grid{gap:4px}
   .day{min-height:64px;padding:6px;border-radius:14px}
   .btn{padding:10px 12px}
@@ -355,52 +355,25 @@ input:focus,textarea:focus,select:focus{
   color: var(--text) !important;
 }
 
-/* Mobil: større kalender-kasse og dag-felter */
-@media (max-width: 520px) {
+/* === EXTRA BIG mobile override (skal stå nederst) === */
+@media (max-width: 720px){
+  .calendar-card{padding:18px !important;border-radius:20px !important;}
+  .calendar-grid{gap:10px !important;}
 
-  .calendar-card{
-    padding: 18px !important;
-    border-radius: 20px !important;
-  }
+  .day{min-height:92px !important;padding:12px !important;border-radius:18px !important;}
 
-  .calendar-header{
-    gap: 10px !important;
-  }
+  .day .date{font-size:14px !important;}
+  .event-pill{font-size:14px !important;padding:6px 8px !important;border-radius:12px !important;}
 
-  /* større måned-label */
-  #month-label{
-    font-size: 18px !important;
-    font-weight: 700 !important;
-  }
+  /* gør knapper større og nemmere at trykke */
+  .btn{padding:14px 16px !important; font-size:16px !important;}
+  .btn.small{min-width:44px !important; min-height:44px !important; font-size:18px !important;}
+}
 
-  /* større knapper (prev/next) */
-  .btn.small{
-    min-height: 44px !important;
-    min-width: 44px !important;
-    padding: 10px 12px !important;
-    font-size: 18px !important;
-  }
-
-  /* gør selve dag-kasserne større */
-  .calendar-grid{
-    gap: 10px !important;
-  }
-
-  /* alle børn i calendar-grid (dagfelterne) */
-  .calendar-grid > *{
-    min-height: 64px !important;
-    padding: 10px !important;
-    border-radius: 14px !important;
-    font-size: 16px !important;
-  }
-
-  /* hvis der står små tider inde i dagfeltet, gør dem større */
-  .calendar-grid > * small,
-  .calendar-grid > * .time,
-  .calendar-grid > * .hours{
-    font-size: 14px !important;
-    font-weight: 600 !important;
-  }
+@media (max-width: 420px){
+  .day{min-height:86px !important;padding:10px !important;}
+  .day .date{font-size:13px !important;}
+  .event-pill{font-size:13px !important;}
 }
 
 
