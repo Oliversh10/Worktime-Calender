@@ -355,40 +355,73 @@ input:focus,textarea:focus,select:focus{
   color: var(--text) !important;
 }
 
-/* === EXTRA BIG mobile override (skal stå nederst) === */
+
+/* === FINAL mobile size override (læg nederst) === */
 @media (max-width: 720px){
-  .calendar-card{padding:18px !important;border-radius:20px !important;}
-  .calendar-grid{gap:10px !important;}
+  .calendar-card{ padding:22px !important; border-radius:22px !important; }
+  .calendar-grid{ gap:12px !important; }
 
-  .day{min-height:92px !important;padding:12px !important;border-radius:18px !important;}
+  .day{
+    min-height:120px !important;
+    padding:14px !important;
+    border-radius:18px !important;
+  }
 
-  .day .date{font-size:14px !important;}
-  .event-pill{font-size:14px !important;padding:6px 8px !important;border-radius:12px !important;}
+  .day .date{ font-size:15px !important; margin-bottom:8px !important; }
+  .event-pill{ font-size:15px !important; padding:8px 10px !important; border-radius:12px !important; }
 
-  /* gør knapper større og nemmere at trykke */
-  .btn{padding:14px 16px !important; font-size:16px !important;}
-  .btn.small{min-width:44px !important; min-height:44px !important; font-size:18px !important;}
+  .btn{ padding:14px 16px !important; font-size:16px !important; }
+  .btn.small{ min-width:48px !important; min-height:48px !important; font-size:20px !important; }
+}
+
+/* Mobil: færre kolonner => bredere dagfelter */
+@media (max-width: 720px){
+  .calendar-grid{
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
 }
 
 @media (max-width: 420px){
-  .day{min-height:86px !important;padding:10px !important;}
-  .day .date{font-size:13px !important;}
-  .event-pill{font-size:13px !important;}
+  .calendar-grid{
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
 }
 
-.day .time-pill{
-  margin-top: 6px;
-  display: inline-block;
-  font-size: 12px;
-  padding: 4px 6px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.2);
-  opacity: 0.95;
+/* Lad event-pill teksten gå på flere linjer (ingen "…") */
+.event-pill{
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+
+  /* wrap også meget lange tokens */
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+
+  /* lidt mere plads + pæn linjeafstand */
+  line-height: 1.15 !important;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.event-pill{
+  display: block !important;
+  width: 100% !important;
 }
 
 @media (max-width: 720px){
-  .day .time-pill{ font-size: 14px; padding: 6px 8px; border-radius: 12px; }
+  .calendar-grid{ gap: 8px !important; }
+  .calendar-card{ padding: 16px !important; }
 }
 
+/* Ugenummer i dag-feltet */
+.day .week-num{
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 11px;
+  opacity: 0.7;
+  pointer-events: none;
+}
 
+.day{ position: relative; } /* nødvendigt for absolute week-num */
 
